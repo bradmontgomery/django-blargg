@@ -3,11 +3,27 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 #from django.core.urlresolvers import reverse
+from django.db import IntegrityError
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
+
+
+class TagManager(models.Manager):
+    def create_tags(self, entry):
+        """Inspects an ``Entry`` instance, and builds associates ``Tag``
+        objects based on the values in the ``Entry``'s ``tag_string``."""
+        tag_list = [t.lower().strip() for t in entry.tag_string.split(',')]
+        for t in tag_list:
+            try:
+                # only add the tag if it's not aleady associated with the entry
+                tag_obj, created = self.get_or_create(name=t)
+                if tag_obj.name not in entry.tags.values_list('name', flat=True):
+                    entry.tags.add(tag_obj)
+            except IntegrityError:
+                pass  # just ignore any tags that are duplicates
 
 
 class Tag(models.Model):
@@ -32,6 +48,8 @@ class Tag(models.Model):
     def get_absolute_url(self):
         #return reverse()
         return '/tags'
+
+    objects = TagManager()
 
 
 class Entry(models.Model):
@@ -121,18 +139,12 @@ class Entry(models.Model):
             raise NotImplementedError  # TODO: run thru markdown!
             self.rendered_content = self.raw_content
 
-    def _generate_tags(self):
-        for tag in self.tag_string.split(','):
-            tag_obj, created = Tag.objects.get_or_create(name=tag)
-            self.tags.add(tag_obj)
-
     def save(self, *args, **kwargs):
         """Auto-generate a slug from the name."""
         self._create_slug()
         self._create_date_slug()
         self._render_content()
         super(Entry, self).save(*args, **kwargs)
-        self._generate_tags()
 
     def get_absolute_url(self):
         #return reverse('', args=[self.slug])
@@ -155,9 +167,6 @@ class Entry(models.Model):
 
 @receiver(post_save, sender=Entry, dispatch_uid='generate-entry-tags')
 def generate_entry_tags(sender, instance, created, raw, using, **kwargs):
-    """Generate the M2M ``Tag``s for an ``Entry`` right after it has been
-    created. Subsequent calls to ``_generate_tags()``"""
-    #if created:
-    #    instance._generate_tags()
-    #instance.save()
-    pass
+    """Generate the M2M ``Tag``s for an ``Entry`` right after it has
+    been saved."""
+    Tag.objects.create_tags(instance)
