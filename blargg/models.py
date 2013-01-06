@@ -54,8 +54,8 @@ class Tag(models.Model):
 class Entry(models.Model):
     CONTENT_FORMAT_CHOICES = (
         ('html', 'HTML'),
-        ('md', 'Markdown'),
-        ('rst', 'reStructured Text'),
+        ('md', 'Markdown (not yet supported)'),
+        ('rst', 'reStructured Text (not yet supported)'),
     )
 
     site = models.ForeignKey(Site)
