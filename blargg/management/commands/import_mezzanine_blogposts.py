@@ -3,6 +3,7 @@ This command will import content from a JSON dump of mezzanine 0.8.5
 (which is *really* old) blogposts.
 
 """
+from datetime import datetime
 import json
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -69,7 +70,9 @@ class Command(BaseCommand):
                 entry.content_format = 'html'
                 entry.rendered_content = data['content']
                 if data['publish_date']:
-                    entry.published = data['publish_date']
+                    fmt = "%Y-%m-%d %H:%M:%S"
+                    date_str = data['publish_date']
+                    entry.published_on = datetime.strptime(date_str, fmt)
                     entry.published = True
                 entry.slug = data['slug']
                 entry.tag_string = ', '.join(data['_keywords'].split())
