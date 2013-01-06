@@ -5,12 +5,14 @@ This command will import content from a JSON dump of mezzanine 0.8.5
 """
 from datetime import datetime
 import json
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.core.management.base import BaseCommand, CommandError
-from blargg.models import Entry
+from django.utils.timezone import get_current_timezone
 
+from blargg.models import Entry
 
 class Command(BaseCommand):
     args = '<path-to-json-export>'
@@ -70,9 +72,11 @@ class Command(BaseCommand):
                 entry.content_format = 'html'
                 entry.rendered_content = data['content']
                 if data['publish_date']:
-                    fmt = "%Y-%m-%d %H:%M:%S"
-                    date_str = data['publish_date']
-                    entry.published_on = datetime.strptime(date_str, fmt)
+                    fmt = "%Y-%m-%d %H:%M:%S"  # Date format String
+                    date_str = data['publish_date']  # Grab the date string
+                    tz = get_current_timezone()  # assumen current timezone
+                    d = datetime.strptime(date_str, fmt).replace(tzinfo=tz)
+                    entry.published_on = d
                     entry.published = True
                 entry.slug = data['slug']
                 entry.tag_string = ', '.join(data['_keywords'].split())
