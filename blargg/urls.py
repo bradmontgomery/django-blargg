@@ -44,6 +44,7 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>.*)/$', EntryDetailView.as_view(), name='entry_detail'),
 
     url(r'^$',
-        ArchiveIndexView.as_view(model=Entry, date_field='published_on'),
+        ArchiveIndexView.as_view(
+            model=Entry, date_field='published_on', paginate_by=10),
         name='list_entries'),
 )
