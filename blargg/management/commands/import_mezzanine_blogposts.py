@@ -79,7 +79,11 @@ class Command(BaseCommand):
                     entry.published_on = d
                     entry.published = True
                 entry.slug = data['slug']
-                entry.tag_string = ', '.join(data['_keywords'].split())
+
+                # Filter out any zero-length tags
+                tag_list = filter(lambda s: len(s) > 0,
+                                  data['_keywords'].split())
+                entry.tag_string = ', '.join(tag_list)
                 entry.save()
 
                 output = "- Added: {0}\n".format(entry)
