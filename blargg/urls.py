@@ -18,7 +18,6 @@ from .views import TaggedEntryListView
 # /blog/2013/                   -- entry list (by year)
 # /blog/2013/05/a-sample-entry/ -- entry detail (with date slug)
 # /blog/                        -- entry detail (latest published post)
-# /blog/preview/id/             -- entry detail for unpublished Entry
 
 urlpatterns = patterns('',
     url(r'^tags/$', ListView.as_view(model=Tag), name='list_tags'),
