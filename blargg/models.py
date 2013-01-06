@@ -83,23 +83,6 @@ class Entry(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
 
-    # fields from mezzanine.blog.blogpost
-    # -----------------------------------
-    # - id
-    # - status (2 == published)
-    # - category (always null)
-    # - description
-    # - title
-    # - short_url (seems to always be null)
-    # - content
-    # - expiry_date
-    # - publish_date
-    # - user
-    # - slug
-    # - keywords [list of integers]
-    # - _keywords (a string with space-separated keywords)
-    # -
-
     def __unicode__(self):
         return self.title
 
@@ -125,7 +108,7 @@ class Entry(models.Model):
         elif self.updated_on:
             # default to the last-updated date
             d = self.updated_on
-        self.date_slug = u"{0}/{1}".format(d.strftime("%Y-%m-%d"), self.slug)
+        self.date_slug = u"{0}/{1}".format(d.strftime("%Y/%m/%d"), self.slug)
 
     def _render_content(self):
         """Renders the content according to the ``content_format``."""
@@ -146,7 +129,16 @@ class Entry(models.Model):
         super(Entry, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('entry_detail', args=[self.slug])
+        if self.published_on:
+            args = [
+                self.published_on.strftime("%Y"),
+                self.published_on.strftime("%m"),
+                self.published_on.strftime("%d"),
+                self.slug
+            ]
+        else:
+            args = [self.slug]
+        return reverse('entry_detail', args=args)
 
     def publish(self):
         self.published = True
