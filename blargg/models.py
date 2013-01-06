@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
-#from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.db import models
 from django.db.models.signals import post_save
@@ -46,8 +46,7 @@ class Tag(models.Model):
         super(Tag, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        #return reverse()
-        return '/tags'
+        return reverse('tagged_entry_list', args=[self.slug])
 
     objects = TagManager()
 
@@ -147,8 +146,7 @@ class Entry(models.Model):
         super(Entry, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        #return reverse('', args=[self.slug])
-        return '/'
+        return reverse('entry_detail', args=[self.slug])
 
     def publish(self):
         self.published = True
