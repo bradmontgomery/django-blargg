@@ -39,7 +39,7 @@ can install this app with one of the following methods:
 1. clone the repo, and put a copy on your python path
 2. You can also install the development version with::
 
-    ``pip install -e git://github.com/bradmontgomery/django-redis-metrics.git#egg=redis_metrics-dev``
+    pip install -e git://github.com/bradmontgomery/django-blargg.git#egg=blargg-dev``
 
 
 Once you've got a copy of the code, add ``blargg`` to your ``INSTALLED_APPS``,
