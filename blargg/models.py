@@ -121,11 +121,21 @@ class Entry(models.Model):
             raise NotImplementedError  # TODO: run thru markdown!
             self.rendered_content = self.raw_content
 
+    def _set_published(self):
+        """Just set the fields that need to be set in order for this thing to
+        appear "Published"."""
+        self.published = True
+        self.published_on = datetime.now()
+
     def save(self, *args, **kwargs):
         """Auto-generate a slug from the name."""
         self._create_slug()
         self._create_date_slug()
         self._render_content()
+        # Make sure we set a `published_on` date if we publish this at
+        # creation time.
+        if not self.id and self.published:
+            self._set_published()
         super(Entry, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -141,8 +151,8 @@ class Entry(models.Model):
         return reverse('entry_detail', args=args)
 
     def publish(self):
-        self.published = True
-        self.published_on = datetime.now()
+        """Puplish & Save."""
+        self._set_published()
         self.save()
 
     def unpublish(self):
