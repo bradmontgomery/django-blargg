@@ -71,13 +71,6 @@ class Command(BaseCommand):
                 entry.raw_content = data['content']
                 entry.content_format = 'html'
                 entry.rendered_content = data['content']
-                if data['publish_date']:
-                    fmt = "%Y-%m-%d %H:%M:%S"  # Date format String
-                    date_str = data['publish_date']  # Grab the date string
-                    tz = get_current_timezone()  # assumen current timezone
-                    d = datetime.strptime(date_str, fmt).replace(tzinfo=tz)
-                    entry.published_on = d
-                    entry.published = True
                 entry.slug = data['slug']
 
                 # Filter out any zero-length tags
@@ -85,6 +78,20 @@ class Command(BaseCommand):
                                   data['_keywords'].split())
                 entry.tag_string = ', '.join(tag_list)
                 entry.save()
+
+                # If an ``Entry`` is marked "published" prior to saving, it'll
+                # use "today" as the publish date. We have to save once, then
+                # "publish" it with an older date.
+                if data['publish_date']:
+                    fmt = "%Y-%m-%d %H:%M:%S"  # Date format String
+                    date_str = data['publish_date']  # Grab the date string
+                    tz = get_current_timezone()  # assumen current timezone
+                    d = datetime.strptime(date_str, fmt).replace(tzinfo=tz)
+                    entry.published_on = d
+                    entry.published = True
+
+                entry.save()
+
 
                 output = "- Added: {0}\n".format(entry)
                 self.stdout.write(output)
