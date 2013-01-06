@@ -1,0 +1,9 @@
+<ul>
+{% for entry in object_list %}
+    <li>
+    <h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
+    <p>Published on {{ entry.published_on }} by {{ entry.author }}</p>
+    <p>{{ entry.content|striptags|truncatewords:20 }}</p>
+    </li>
+{% endfor %}
+</ul>

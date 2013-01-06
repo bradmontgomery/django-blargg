@@ -1,0 +1,11 @@
+<h2>Published in {{ year|date:"Y" }}</h2>
+
+<ul>
+{% for date in date_list %}
+    {% with m=date|date:"m" %}
+    <li>
+        <a href="{% url 'entry_archive_month' date.year m %}">{{ date|date:"F"}}</a>
+    </li>
+    {% endwith %}
+{% endfor %}
+</ul>

@@ -1,0 +1,25 @@
+<h2>Published on {{ day|date:"F jS, Y" }}</h2>
+
+<ul>
+{% for entry in object_list %}
+    <li>
+        <a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a>
+    </li>
+{% endfor %}
+</ul>
+
+<p>
+{% if previous_month %}
+    Previous Month: {{ previous_month|date:"F Y" }}
+{% endif %}
+{% if previous_day %}
+    Previous Day {{ previous_day|date:"F j, Y" }}
+{% endif %}
+{% if next_day %}
+    Next Day {{ next_day|date:"F j, Y" }}
+{% endif %}
+
+{% if next_month %}
+    Next Month: {{ next_month|date:"F Y" }}
+{% endif %}
+</p>
