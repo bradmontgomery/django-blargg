@@ -9,3 +9,23 @@
     {% endwith %}
 {% endfor %}
 </ul>
+
+
+{% if previous_year or next_year %}
+    <p>
+    {% if previous_year %}
+        {% with y=previous_year|date:"Y" %}
+        <a href="{% url 'entry_archive_year' y %}">{{ previous_year|date:"Y" }}</a>.
+        {% endwith %}
+        |
+    {% endif %}
+
+    {{ year|date:"Y" }}.
+
+    {% if next_year %}
+        {% with y=next_year|date:"Y" %}
+        <a href="{% url 'entry_archive_year' y %}">{{ next_year|date:"Y" }}</a>.
+        {% endwith %}
+    {% endif %}
+    </p>
+{% endif %}

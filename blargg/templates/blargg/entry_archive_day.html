@@ -8,18 +8,21 @@
 {% endfor %}
 </ul>
 
-<p>
-{% if previous_month %}
-    Previous Month: {{ previous_month|date:"F Y" }}
-{% endif %}
-{% if previous_day %}
-    Previous Day {{ previous_day|date:"F j, Y" }}
-{% endif %}
-{% if next_day %}
-    Next Day {{ next_day|date:"F j, Y" }}
-{% endif %}
+{% if previous_day or next_day %}
+    <p>
+    {% if previous_day %}
+        {% with y=previous_day|date:"Y" m=previous_day|date:"m" d=previous_day|date:"d"%}
+         <a href="{% url 'entry_archive_day' y m d %}">{{ previous_day|date:"F jS, Y" }}</a>.
+        {% endwith %}
+    {% endif %}
 
-{% if next_month %}
-    Next Month: {{ next_month|date:"F Y" }}
+    {{ day|date:"F jS, Y" }}.
+
+    {% if next_day %}
+        {% with y=next_day|date:"Y" m=next_day|date:"m" d=next_day|date:"d"%}
+        <a href="{% url 'entry_archive_day' y m d %}">{{ next_day|date:"F jS, Y" }}</a>.
+        {% endwith %}
+    {% endif %}
+    </p>
 {% endif %}
-</p>
+{% endblock %}

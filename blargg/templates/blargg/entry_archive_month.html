@@ -18,11 +18,21 @@
 {% endfor %}
 </ul>
 
-<p>
-{% if previous_month %}
-    Previous Month: {{ previous_month|date:"F Y" }}
+
+{% if previous_month or next_month %}
+    <p>
+    {% if previous_month %}
+        {% with y=previous_month|date:"Y" m=previous_month|date:"m" %}
+        <a href="{% url 'entry_archive_month' y m %}">{{ previous_month|date:"F Y" }}</a>.
+        {% endwith %}
+    {% endif %}
+
+    {{ month|date:"F, Y" }}.
+
+    {% if next_month %}
+        {% with y=next_month|date:"Y" m=next_month|date:"m" %}
+        <a href="{% url 'entry_archive_month' y m %}">{{ next_month|date:"F Y" }}</a>.
+        {% endwith %}
+    {% endif %}
+    </p>
 {% endif %}
-{% if next_month %}
-    Next Month: {{ next_month|date:"F Y" }}
-{% endif %}
-</p>
