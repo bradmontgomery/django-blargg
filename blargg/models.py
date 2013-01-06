@@ -88,6 +88,7 @@ class Entry(models.Model):
 
     class Meta:
         ordering = ['-published_on', 'title']
+        get_latest_by = 'published_on'
         verbose_name = 'Entry'
         verbose_name_plural = 'Entries'
 
