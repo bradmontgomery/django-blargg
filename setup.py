@@ -17,7 +17,7 @@ setup(
         'blargg': ['templates/blargg/*.html']
     },
     zip_safe=False,
-    install_requires=['django>=1.5'],
+    install_requires=['django'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
