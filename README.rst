@@ -19,6 +19,7 @@ Features
 * A Management command to import from a really old version of Mezzanine (0.8.5)
 * Liberal use of generic views (there's very little custom view code)
 * Write content in HTML
+* RSS & Atom Feeds
 
 Future Features (maybe)
 -----------------------
