@@ -20,6 +20,7 @@ Features
 * Liberal use of generic views (there's very little custom view code)
 * Write content in HTML
 * RSS & Atom Feeds
+* Sitemap support
 
 Future Features (maybe)
 -----------------------
