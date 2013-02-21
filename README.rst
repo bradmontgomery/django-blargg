@@ -21,16 +21,19 @@ Features
 * Write content in HTML
 * RSS & Atom Feeds
 * Sitemap support
+* Automatically cross-posting to Blogger (see below)
 
 Future Features (maybe)
 -----------------------
 * Write content in ReSt
 * Write content in Markdown
 
+
 TODO
 ====
 * tests :(
 * at least add ReSt support
+
 
 Installation
 ============
@@ -51,6 +54,25 @@ and include the following in your Root URLconf::
 
 There are some sample templates under ``blargg/templates/blargg``, but you'll
 probably want to override these in your project.
+
+
+Mail2Blogger Support
+====================
+
+This app supports cross-posting to Blogger via email. By default, this setting
+is disabled. To enable Mail2Blogger, include the following settings::
+
+    BLARGG = {
+        'mail2blogger': True,
+        'mail2blogger_email': 'username.SECRET@blogger.com',
+    }
+
+To set your Mail2Blogger email address, view your
+`Mobile and email <http://www.blogger.com>`_ settings.
+
+Entries that are cross-posted to Blogger will automatically include a link
+back to the original site.
+
 
 License
 =======

@@ -10,6 +10,7 @@ from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
 
+from .signals import entry_published
 
 class TagManager(models.Manager):
     def create_tags(self, entry):
@@ -123,10 +124,11 @@ class Entry(models.Model):
             self.rendered_content = self.raw_content
 
     def _set_published(self):
-        """Just set the fields that need to be set in order for this thing to
-        appear "Published"."""
+        """Set the fields that need to be set in order for this thing to
+        appear "Published", and send the ``entry_published`` signal."""
         self.published = True
         self.published_on = datetime.now()
+        entry_published.send(sender=self, entry=self)
 
     def save(self, *args, **kwargs):
         """Auto-generate a slug from the name."""
@@ -165,6 +167,19 @@ class Entry(models.Model):
     def content(self):
         safe_content = mark_safe(self.rendered_content)
         return safe_content
+
+    @property
+    def crossposted_content(self):
+        """Content to be cross-posted on other sites. This method adds an
+        additional line of content with a link back to the original site."""
+
+        url = "http://{0}{1}".format(self.site.domain, self.get_absolute_url())
+        origin = (
+            '<p><em>This entry was originally published at: '
+            '<a href="{0}">{1}</a>.</em></p'.format(url, url)
+        )
+        return mark_safe(u"{0}{1}".format(self.content, origin))
+
 
 @receiver(post_save, sender=Entry, dispatch_uid='generate-entry-tags')
 def generate_entry_tags(sender, instance, created, raw, using, **kwargs):
