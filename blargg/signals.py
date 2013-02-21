@@ -1,6 +1,7 @@
 from django.conf import settings
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.dispatch import Signal, receiver
+from django.template.defaultfilters import striptags
 
 try:
     blargg_settings = settings.BLARGG
@@ -28,11 +29,14 @@ def mail2blogger(entry, **kwargs):
     enabled = blargg_settings['mail2blogger']
     recipient = blargg_settings['mail2blogger_email']
     if enabled and recipient:
-        send_mail(
+
+        # Send HTML (and text-only) email
+        msg = EmailMultiAlternatives(
             entry.title,  # Subject
-            entry.crossposted_content,  # Content
+            striptags(entry.crossposted_content),  # Text-only
             settings.DEFAULT_FROM_EMAIL,  # From
-           [recipient],  # List of Recipients
-           fail_silently=False
+           [recipient]  # List of Recipients
         )
+        msg.attach_alternative(entry.crossposted_content, "text/html")
+        msg.send(fail_silently=True)
         # TODO: log this?
