@@ -8,6 +8,6 @@ register = template.Library()
 @register.simple_tag
 def entry_archive_year_url():
     """Renders the ``entry_archive_year`` URL for the latest ``Entry``."""
-    entry = Entry.objects.latest()
+    entry = Entry.objects.filter(published=True).latest()
     arg_list = [entry.published_on.strftime("%Y")]
     return reverse('entry_archive_year', args=arg_list)
