@@ -12,6 +12,7 @@ from django.utils.safestring import mark_safe
 
 from .signals import entry_published
 
+
 class TagManager(models.Manager):
     def create_tags(self, entry):
         """Inspects an ``Entry`` instance, and builds associates ``Tag``
@@ -135,10 +136,14 @@ class Entry(models.Model):
         self._create_slug()
         self._create_date_slug()
         self._render_content()
-        # Make sure we set a `published_on` date if we publish this at
-        # creation time.
-        if not self.id and self.published:
+
+        # Call ``_set_published`` the *first* time this Entry is published.
+        # NOTE: if this is unpublished, and then republished, this method won't
+        # get called; e.g. the date won't get changed and the
+        # ``entry_published`` signal won't get re-sent.
+        if self.published and self.published_on is None:
             self._set_published()
+
         super(Entry, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
