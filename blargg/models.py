@@ -21,9 +21,9 @@ class TagManager(models.Manager):
         for t in tag_list:
             try:
                 # only add the tag if it's not aleady associated with the entry
-                tag_obj, created = self.get_or_create(name=t)
-                if tag_obj.name not in entry.tags.values_list('name', flat=True):
-                    entry.tags.add(tag_obj)
+                tag, created = self.get_or_create(name=t)
+                if tag.name not in entry.tags.values_list('name', flat=True):
+                    entry.tags.add(tag)
             except IntegrityError:
                 pass  # just ignore any tags that are duplicates
 
