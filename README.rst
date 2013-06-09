@@ -86,3 +86,16 @@ Contributing
 
 Feel free to report any issues or (better yet) pull requests for bug fixes!
 
+
+Why "Blargg"
+============
+
+From `<http://nintendo.wikia.com/wiki/Blargg>`_:
+
+    A Blargg is a large red dragon that lives in lava and appears in Super Mario
+    World. When Mario goes across a lava pit on a pile of skulls occasionally
+    the eyes of a Blargg will appear and then itself will try to eat Mario. They
+    are found mostly in the Vanilla Dome. Strangely, they have one lazy eye.
+
+Other than that, *Blargg* is really fun to say out loud. Especially if you use
+a *Pirate Voice*.
