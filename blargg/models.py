@@ -180,7 +180,7 @@ class Entry(models.Model):
         url = "http://{0}{1}".format(self.site.domain, self.get_absolute_url())
         origin = (
             '<p><em>This entry was originally published at: '
-            '<a href="{0}">{1}</a>.</em></p'.format(url, url)
+            '<a href="{0}">{1}</a>.</em></p>'.format(url, url)
         )
         return mark_safe(u"{0}{1}".format(self.content, origin))
 

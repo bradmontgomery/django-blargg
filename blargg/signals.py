@@ -23,7 +23,13 @@ entry_published = Signal(providing_args=["entry"])
 
 @receiver(entry_published, dispatch_uid='blargg-mail2blogger')
 def mail2blogger(entry, **kwargs):
-    """This signal handler cross-posts published ``Entry``'s to Blogger.
+    """This signal handler cross-posts published ``Entry``'s to Blogger. For
+    this to work, the following settings must be non-False; e.g.:
+
+        BLARGG = {
+            'mail2blogger': True,
+            'mail2blogger_email': 'user@example.com',
+        }
 
     """
     enabled = blargg_settings['mail2blogger']
@@ -39,4 +45,3 @@ def mail2blogger(entry, **kwargs):
         )
         msg.attach_alternative(entry.crossposted_content, "text/html")
         msg.send(fail_silently=True)
-        # TODO: log this?
