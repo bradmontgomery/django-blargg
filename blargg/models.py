@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
@@ -9,6 +7,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
+from django.utils.timezone import now as utc_now
 
 from .signals import entry_published
 
@@ -104,7 +103,7 @@ class Entry(models.Model):
         """Prefixes the slug with the ``published_on`` date."""
         if not self.pk:
             # haven't saved this yet, so use today's date
-            d = datetime.today()
+            d = utc_now()
         elif self.published and self.published_on:
             # use the actual published on date
             d = self.published_on
@@ -128,7 +127,7 @@ class Entry(models.Model):
         """Set the fields that need to be set in order for this thing to
         appear "Published", and send the ``entry_published`` signal."""
         self.published = True
-        self.published_on = datetime.now()
+        self.published_on = utc_now()
         entry_published.send(sender=self, entry=self)
 
     def save(self, *args, **kwargs):
