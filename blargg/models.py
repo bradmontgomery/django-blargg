@@ -120,7 +120,7 @@ class Entry(models.Model):
             raise NotImplementedError  # TODO: run thru markdown!
             self.rendered_content = self.raw_content
         elif self.content_fromat == "rst":
-            raise NotImplementedError  # TODO: run thru markdown!
+            raise NotImplementedError  # TODO: run thru restructuredtext!
             self.rendered_content = self.raw_content
 
     def _set_published(self):
