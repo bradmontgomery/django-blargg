@@ -1,13 +1,28 @@
+{% load tz %}
+
 <h2>Published in {{ year|date:"Y" }}</h2>
 
 <ul>
-{% for date in date_list %}
-    {% with m=date|date:"m" %}
+{% comment %}
+NOTE: Since the context for this template includes a list of UTC datetimes,
+I'm turrning off the converstion to "current timezone". This resolves a bug
+that happens when:
+
+    - An Entry is published on Feb 1, 2013 at midnight UTC
+    - The output date gets changed for someone in another timezone; e.g.
+      it'll be Jan 31, 2013 for someone in -600 (me).
+    - This results in an url of <a href="/2013/01/">January</a>
+
+{% endcomment %}
+{% localtime off %}
+{% for d in date_list %}
     <li>
-        <a href="{% url 'entry_archive_month' date.year m %}">{{ date|date:"F"}}</a>
+        <a href="{% url 'entry_archive_month' d|date:"Y" d|date:"m" %}">
+        {{ d|date:"F"}}
+        </a>
     </li>
-    {% endwith %}
 {% endfor %}
+{% endlocaltime %}
 </ul>
 
 

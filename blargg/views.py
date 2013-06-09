@@ -51,17 +51,20 @@ class EntryDetailView(DetailView):
 # -------------------------
 
 class EntryYearArchiveView(YearArchiveView):
-    model = Entry
+    queryset = Entry.objects.filter(published=True)
     date_field = "published_on"
+    template_name = "blargg/entry_archive_year.html"
 
 
 class EntryMonthArchiveView(MonthArchiveView):
-    model = Entry
+    queryset = Entry.objects.filter(published=True)
     date_field = "published_on"
     month_format = "%m"
+    template_name = "blargg/entry_archive_month.html"
 
 
 class EntryDayArchiveView(DayArchiveView):
-    model = Entry
+    queryset = Entry.objects.filter(published=True)
     date_field = "published_on"
     month_format = "%m"
+    template_name = "blargg/entry_archive_day.html"
