@@ -22,17 +22,16 @@ Features
 * RSS & Atom Feeds
 * Sitemap support
 * Automatically cross-posting to Blogger (see below)
+* Write content in reStructured Text (requires `docutils <https://pypi.python.org/pypi/docutils>`_)
 
 Future Features (maybe)
 -----------------------
-* Write content in ReSt
 * Write content in Markdown
 
 
 TODO
 ====
 * tests :(
-* at least add ReSt support
 
 
 Installation

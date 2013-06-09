@@ -1,3 +1,9 @@
+try:
+    from docutils.core import publish_parts as docutils_publish
+    assert docutils_publish  # placate flake8
+except ImportError:
+    docutils_publish = None
+
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
@@ -55,8 +61,8 @@ class Tag(models.Model):
 class Entry(models.Model):
     CONTENT_FORMAT_CHOICES = (
         ('html', 'HTML'),
+        ('rst', 'reStructured Text'),
         ('md', 'Markdown (not yet supported)'),
-        ('rst', 'reStructured Text (not yet supported)'),
     )
 
     site = models.ForeignKey(Site)
@@ -116,11 +122,14 @@ class Entry(models.Model):
         """Renders the content according to the ``content_format``."""
         if self.content_format == "html":
             self.rendered_content = self.raw_content
+        elif self.content_format == "rst":
+            doc_parts = docutils_publish(
+                source=self.raw_content,
+                writer_name="html4css1"
+            )
+            self.rendered_content = doc_parts['fragment']
         elif self.content_format == "md":
             raise NotImplementedError  # TODO: run thru markdown!
-            self.rendered_content = self.raw_content
-        elif self.content_fromat == "rst":
-            raise NotImplementedError  # TODO: run thru restructuredtext!
             self.rendered_content = self.raw_content
 
     def _set_published(self):
