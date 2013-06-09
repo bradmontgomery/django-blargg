@@ -1,11 +1,12 @@
 from django.conf.urls import patterns, url
-from django.views.generic import ArchiveIndexView, YearArchiveView
-from django.views.generic import MonthArchiveView, DayArchiveView
+from django.views.generic import ArchiveIndexView
 from django.views.generic import ListView
 
 from .models import Entry, Tag
-
+from .views import EntryDayArchiveView
 from .views import EntryDetailView
+from .views import EntryMonthArchiveView
+from .views import EntryYearArchiveView
 from .views import TaggedEntryListView
 
 # URL examples
@@ -26,16 +27,11 @@ urlpatterns = patterns('',
 
     # Year, Month, Day Archives
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$',
-        DayArchiveView.as_view(
-            model=Entry, date_field='published_on', month_format='%m'),
-        name='entry_archive_day'),
+        EntryDayArchiveView.as_view(), name='entry_archive_day'),
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/$',
-        MonthArchiveView.as_view(
-            model=Entry, date_field='published_on', month_format='%m'),
-        name='entry_archive_month'),
+        EntryMonthArchiveView.as_view(), name='entry_archive_month'),
     url(r'^(?P<year>\d{4})/$',
-        YearArchiveView.as_view(model=Entry, date_field='published_on'),
-        name='entry_archive_year'),
+        EntryYearArchiveView.as_view(), name='entry_archive_year'),
 
     # Detail views (with and without the date)
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>.*)/$',

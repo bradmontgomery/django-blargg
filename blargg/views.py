@@ -1,5 +1,7 @@
 from django.http import Http404
 from django.views.generic import DetailView, ListView
+from django.views.generic import DayArchiveView, MonthArchiveView
+from django.views.generic import YearArchiveView
 
 from .models import Entry
 
@@ -43,3 +45,23 @@ class EntryDetailView(DetailView):
                 raise Http404
 
         return obj
+
+
+# Year, Month, Day Archives
+# -------------------------
+
+class EntryYearArchiveView(YearArchiveView):
+    model = Entry
+    date_field = "published_on"
+
+
+class EntryMonthArchiveView(MonthArchiveView):
+    model = Entry
+    date_field = "published_on"
+    month_format = "%m"
+
+
+class EntryDayArchiveView(DayArchiveView):
+    model = Entry
+    date_field = "published_on"
+    month_format = "%m"
