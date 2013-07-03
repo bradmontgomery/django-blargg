@@ -24,13 +24,8 @@ class TagManager(models.Manager):
         objects based on the values in the ``Entry``'s ``tag_string``."""
         tag_list = [t.lower().strip() for t in entry.tag_string.split(',')]
         for t in tag_list:
-            try:
-                # only add the tag if it's not aleady associated with the entry
-                tag, created = self.get_or_create(name=t)
-                if tag.name not in entry.tags.values_list('name', flat=True):
-                    entry.tags.add(tag)
-            except IntegrityError:
-                pass  # just ignore any tags that are duplicates
+            tag, created = self.get_or_create(name=t)
+            entry.tags.add(tag)
 
 
 class Tag(models.Model):
