@@ -5,10 +5,10 @@ from django.template.defaultfilters import striptags
 
 try:
     blargg_settings = settings.BLARGG
-except AttributeError:
+except AttributeError:  # pragma: no cover
     # Use the local settings
-    from .settings import BLARGG
-    blargg_settings = BLARGG
+    from .settings import BLARGG  # pragma: no cover
+    blargg_settings = BLARGG  # pragma: no cover
 
 # -------------------
 # Signal Definitions
