@@ -1,8 +1,8 @@
 try:
     from docutils.core import publish_parts as docutils_publish
     assert docutils_publish  # placate flake8
-except ImportError:
-    docutils_publish = None
+except ImportError:  # pragma: no cover
+    docutils_publish = None  # pragma: no cover
 
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
@@ -125,7 +125,6 @@ class Entry(models.Model):
             self.rendered_content = doc_parts['fragment']
         elif self.content_format == "md":
             raise NotImplementedError  # TODO: run thru markdown!
-            self.rendered_content = self.raw_content
 
     def _set_published(self):
         """Set the fields that need to be set in order for this thing to
