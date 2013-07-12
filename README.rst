@@ -18,20 +18,15 @@ Features
   content).
 * A Management command to import from a really old version of Mezzanine (0.8.5)
 * Liberal use of generic views (there's very little custom view code)
-* Write content in HTML
 * RSS & Atom Feeds
 * Sitemap support
-* Automatically cross-posting to Blogger (see below)
-* Write content in reStructured Text (requires `docutils <https://pypi.python.org/pypi/docutils>`_)
+* Automatic cross-posting to Blogger (see below)
+* Write content in HTML or reStructured Text (requires
+  `docutils <https://pypi.python.org/pypi/docutils>`_)
 
 Future Features (maybe)
 -----------------------
 * Write content in Markdown
-
-
-TODO
-====
-* tests :(
 
 
 Installation
@@ -97,4 +92,6 @@ From `<http://nintendo.wikia.com/wiki/Blargg>`_:
     are found mostly in the Vanilla Dome. Strangely, they have one lazy eye.
 
 Other than that, *Blargg* is really fun to say out loud. Especially if you use
-a *Pirate Voice*.
+a *Pirate Voice*. Go ahead, try it!
+
+*Blargg*.
