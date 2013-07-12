@@ -48,7 +48,7 @@ class TestViews(TestCase):
         self.assertIn('object_list', resp.context)
         self.assertEqual(len(resp.context['object_list']), 1)
 
-    # wat
+    # wat; 404?
     #def test_entry_archive_day(self):
         #y, m, d = self.entry.published_on.strftime("%Y-%m-%d").split("-")
         #url = reverse('entry_archive_day', args=[y, m, d])
