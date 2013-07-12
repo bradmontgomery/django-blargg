@@ -48,15 +48,14 @@ class TestViews(TestCase):
         self.assertIn('object_list', resp.context)
         self.assertEqual(len(resp.context['object_list']), 1)
 
-    # wat; 404?
-    #def test_entry_archive_day(self):
-        #y, m, d = self.entry.published_on.strftime("%Y-%m-%d").split("-")
-        #url = reverse('entry_archive_day', args=[y, m, d])
-        #resp = self.client.get(url)
-        #self.assertEqual(resp.status_code, 200)
-        #self.assertIn('object_list', resp.context)
-        #self.assertEqual(len(resp.context['object_list']), 1)
-        #self.assertTemplateUsed("blargg/entry_archive_day.html")
+    def test_entry_archive_day(self):
+        y, m, d = self.entry.published_on.strftime("%Y-%m-%d").split("-")
+        url = reverse('entry_archive_day', args=[y, m, d])
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('object_list', resp.context)
+        self.assertEqual(len(resp.context['object_list']), 1)
+        self.assertTemplateUsed("blargg/entry_archive_day.html")
 
     def test_entry_archive_month(self):
         y, m, d = self.entry.published_on.strftime("%Y-%m-%d").split("-")
