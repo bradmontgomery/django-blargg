@@ -1,5 +1,5 @@
 from .models import TestEntry, TestTag, TestTagManager
-from .views import TestEntrySitemap
+from .sitemaps import TestEntrySitemap
 from .admin import TestEntryAdmin, TestTagAdmin
 
 __all__ = (
