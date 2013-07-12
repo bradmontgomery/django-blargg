@@ -1,6 +1,7 @@
+from .admin import TestEntryAdmin, TestTagAdmin
 from .models import TestEntry, TestTag, TestTagManager
 from .sitemaps import TestEntrySitemap
-from .admin import TestEntryAdmin, TestTagAdmin
+from .views import TestViews
 
 __all__ = (
     TestEntry,
@@ -9,4 +10,5 @@ __all__ = (
     TestTag,
     TestTagAdmin,
     TestTagManager,
+    TestViews,
 )
