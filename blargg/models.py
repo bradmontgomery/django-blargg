@@ -4,6 +4,8 @@ try:
 except ImportError:  # pragma: no cover
     docutils_publish = None  # pragma: no cover
 
+import pytz
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
@@ -13,6 +15,7 @@ from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from django.utils.safestring import mark_safe
 from django.utils.timezone import now as utc_now
+from django.utils.timezone import make_naive
 
 from .signals import entry_published
 
@@ -148,11 +151,20 @@ class Entry(models.Model):
         super(Entry, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        if self.published_on:
+        pub_date = self.published_on
+
+        if pub_date and settings.USE_TZ:
+            # If TZ is enabled, convert all of these dates from UTC to whatever
+            # the project's timezone is set as. Ideally, we'd pull this form
+            # some user settings, but the *canonical* publish time is that of
+            # the author (asssuming author == owner of this project).
+            pub_date = make_naive(pub_date, pytz.utc)  # Make naive
+            pub_date = pytz.timezone(settings.TIME_ZONE).localize(pub_date)
+        if pub_date:
             args = [
-                self.published_on.strftime("%Y"),
-                self.published_on.strftime("%m"),
-                self.published_on.strftime("%d"),
+                pub_date.strftime("%Y"),
+                pub_date.strftime("%m"),
+                pub_date.strftime("%d"),
                 self.slug
             ]
         else:

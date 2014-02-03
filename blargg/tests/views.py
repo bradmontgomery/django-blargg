@@ -49,9 +49,10 @@ class TestViews(TestCase):
         self.assertEqual(len(resp.context['object_list']), 1)
 
     def test_entry_archive_day(self):
-        # TODO: THIS test fails, because Entries are stored in UTC and the
-        # EntryDayArchiveView uses the local timezone. Need to handle TZ info
-        # correctly!
+        # NOTE: Entries are stored in UTC and the EntryDayArchiveView converts
+        # dates to the local timezone (if USE_TZ=True).
+        # Also, Entry.get_absolute_url also converts to TIME_ZONE if USE_TZ is
+        # True.
         y, m, d = self.entry.published_on.strftime("%Y-%m-%d").split("-")
         url = reverse('entry_archive_day', args=[y, m, d])
         resp = self.client.get(url)

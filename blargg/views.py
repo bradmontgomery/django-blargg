@@ -45,9 +45,9 @@ class EntryMonthArchiveView(MonthArchiveView):
 
 
 class EntryDayArchiveView(DayArchiveView):
-    # TODO: Handle TZ info correctly. This view uses local timzones by default,
-    # and Entries may be stored in UTC.
-    # See `get_dated_queryset` at http://goo.gl/x5qhYX
+    # NOTE: Entries are stored in UTC and this view converts dates to the
+    # local timezone (if USE_TZ=True). Therefore, Entry.get_absolute_url also
+    # converts to TIME_ZONE if USE_TZ=True.
     queryset = Entry.objects.filter(published=True)
     date_field = "published_on"
     year_format = '%Y'
