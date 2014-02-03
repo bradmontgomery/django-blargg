@@ -1,5 +1,6 @@
 <h2>Published in {{ month|date:"F, Y" }}</h2>
 
+<h3>Dates</h3>
 <ul>
 {% for date in date_list %}
     {% with m=date|date:"m" d=date|date:"d" %}
@@ -10,6 +11,7 @@
 {% endfor %}
 </ul>
 
+<h3>Entries</h3>
 <ul>
 {% for entry in object_list %}
     <li>
