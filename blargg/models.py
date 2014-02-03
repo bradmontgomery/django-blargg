@@ -7,7 +7,6 @@ except ImportError:  # pragma: no cover
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
-from django.db import IntegrityError
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -115,9 +114,7 @@ class Entry(models.Model):
 
     def _render_content(self):
         """Renders the content according to the ``content_format``."""
-        if self.content_format == "html":
-            self.rendered_content = self.raw_content
-        elif self.content_format == "rst":
+        if self.content_format == "rst" and docutils_publish is not None:
             doc_parts = docutils_publish(
                 source=self.raw_content,
                 writer_name="html4css1"
@@ -125,6 +122,8 @@ class Entry(models.Model):
             self.rendered_content = doc_parts['fragment']
         elif self.content_format == "md":
             raise NotImplementedError  # TODO: run thru markdown!
+        else:  # Assume we've got html
+            self.rendered_content = self.raw_content
 
     def _set_published(self):
         """Set the fields that need to be set in order for this thing to
