@@ -45,9 +45,13 @@ class EntryMonthArchiveView(MonthArchiveView):
 
 
 class EntryDayArchiveView(DayArchiveView):
+    # TODO: Handle TZ info correctly. This view uses local timzones by default,
+    # and Entries may be stored in UTC.
+    # See `get_dated_queryset` at http://goo.gl/x5qhYX
     queryset = Entry.objects.filter(published=True)
     date_field = "published_on"
     year_format = '%Y'
     month_format = "%m"
     day_format = "%d"
     template_name = "blargg/entry_archive_day.html"
+    allow_empty = True
