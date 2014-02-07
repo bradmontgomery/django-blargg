@@ -20,6 +20,19 @@
 {% endfor %}
 </ul>
 
+<h2>Stats for {{ year|date:"F, Y" }}</h2>
+<p>Total Words written: {{ total_words }}</p>
+<table>
+  <caption>Most Common words</caption>
+  <thead>
+    <tr><th>Word</th><th>Times Used</th></tr>
+  </thead>
+  <tbody>
+    {% for word, count in most_common %}
+      <tr><td>{{ word }}</td><td>{{ count }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 {% if previous_month or next_month %}
     <p>
