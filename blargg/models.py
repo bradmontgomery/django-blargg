@@ -1,10 +1,13 @@
+import pytz
+import re
+
+from collections import Counter
 try:
     from docutils.core import publish_parts as docutils_publish
     assert docutils_publish  # placate flake8
 except ImportError:  # pragma: no cover
     docutils_publish = None  # pragma: no cover
 
-import pytz
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
@@ -13,6 +16,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
+from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 from django.utils.timezone import now as utc_now
 from django.utils.timezone import make_naive
@@ -204,3 +208,20 @@ def generate_entry_tags(sender, instance, created, raw, using, **kwargs):
     """Generate the M2M ``Tag``s for an ``Entry`` right after it has
     been saved."""
     Tag.objects.create_tags(instance)
+
+
+def entry_stats(entries, top_n=10):
+    """Calculates stats for the given ``QuerySet`` of ``Entry``s."""
+
+    wc = Counter()  # A Word counter
+    for content in entries.values_list("rendered_content", flat=True):
+        # Do a little cleanup
+        content = strip_tags(content)  # remove all html tags
+        content = re.sub('\s+', ' ', content)  # condense all whitespace
+        content = re.sub('[^A-Za-z ]+', '', content)  # remove non-alpha chars
+        wc.update(content.split())
+
+    return {
+        "total_words": len(wc.values()),
+        "most_common": wc.most_common(top_n),
+    }
