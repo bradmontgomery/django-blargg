@@ -1,8 +1,17 @@
 from django.views.generic import DetailView, ListView
 from django.views.generic import DayArchiveView, MonthArchiveView
 from django.views.generic import YearArchiveView
+from django.views.generic.list import MultipleObjectMixin
 
-from .models import Entry
+from .models import Entry, entry_stats
+
+
+class EntryStatsMixin(MultipleObjectMixin):
+    def get_context_data(self, **kwargs):
+        context = super(EntryStatsMixin, self).get_context_data(**kwargs)
+        # Calculate stats for the queryset of Entries & add to the context.
+        context.update(entry_stats(context['object_list']))
+        return context
 
 
 class TaggedEntryListView(ListView):
@@ -29,14 +38,14 @@ class EntryDetailView(DetailView):
 # Year, Month, Day Archives
 # -------------------------
 
-class EntryYearArchiveView(YearArchiveView):
+class EntryYearArchiveView(EntryStatsMixin, YearArchiveView):
     queryset = Entry.objects.filter(published=True)
     date_field = "published_on"
     year_format = '%Y'
     template_name = "blargg/entry_archive_year.html"
 
 
-class EntryMonthArchiveView(MonthArchiveView):
+class EntryMonthArchiveView(EntryStatsMixin, MonthArchiveView):
     queryset = Entry.objects.filter(published=True)
     date_field = "published_on"
     year_format = '%Y'
@@ -44,7 +53,7 @@ class EntryMonthArchiveView(MonthArchiveView):
     template_name = "blargg/entry_archive_month.html"
 
 
-class EntryDayArchiveView(DayArchiveView):
+class EntryDayArchiveView(EntryStatsMixin, DayArchiveView):
     # NOTE: Entries are stored in UTC and this view converts dates to the
     # local timezone (if USE_TZ=True). Therefore, Entry.get_absolute_url also
     # converts to TIME_ZONE if USE_TZ=True.
