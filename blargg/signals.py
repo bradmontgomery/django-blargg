@@ -32,8 +32,8 @@ def mail2blogger(entry, **kwargs):
         }
 
     """
-    enabled = blargg_settings['mail2blogger']
-    recipient = blargg_settings['mail2blogger_email']
+    enabled = blargg_settings.get('mail2blogger', False)
+    recipient = blargg_settings.get('mail2blogger_email', None)
     if enabled and recipient:
 
         # Send HTML (and text-only) email
