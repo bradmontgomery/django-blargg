@@ -30,13 +30,17 @@ Future Features (maybe)
 
 
 Installation
-============
+------------
 
 This app will probably not be on pypi for the forseeable future. However, you
 can install this app with one of the following methods:
 
 1. clone the repo, and put a copy on your python path
-2. You can also install the development version with::
+2. Install the latest *tagged release*::
+
+    pip install -e git://github.com/bradmontgomery/django-blargg.git@v0.4.3#egg=blargg-dev
+
+3. You can also install the development version with::
 
     pip install -e git://github.com/bradmontgomery/django-blargg.git#egg=blargg-dev
 
@@ -51,7 +55,7 @@ probably want to override these in your project.
 
 
 Mail2Blogger Support
-====================
+--------------------
 
 This app supports cross-posting to Blogger via email. By default, this setting
 is disabled. To enable Mail2Blogger, include the following settings::
@@ -62,27 +66,31 @@ is disabled. To enable Mail2Blogger, include the following settings::
     }
 
 To set your Mail2Blogger email address, view your
-`Mobile and email <http://www.blogger.com>`_ settings.
+`Mobile and email <http://www.blogger.com>`_ settings. Entries that are
+cross-posted to Blogger will automatically include a link back to the original
+site (provided that you've got the ``django.contrib.sites`` app installed and
+configured correctly).
 
-Entries that are cross-posted to Blogger will automatically include a link
-back to the original site.
-
+**Warning**: *mail2blogger* appears to remove extra whitespace from your content
+which breaks things in a ``<pre>`` or ``<code>`` blocks. If you know how to
+prevent this,
+`please let me know <https://github.com/bradmontgomery/django-blargg/issues/3>`_.
 
 License
-=======
+-------
 
 This code is distributed under the terms of the MIT license. See the
 ``LICENSE.txt`` file.
 
 
 Contributing
-============
+------------
 
 Feel free to report any issues or (better yet) pull requests for bug fixes!
 
 
 Why "Blargg"
-============
+------------
 
 From `<http://nintendo.wikia.com/wiki/Blargg>`_:
 
@@ -95,3 +103,4 @@ Other than that, *Blargg* is really fun to say out loud. Especially if you use
 a *Pirate Voice*. Go ahead, try it!
 
 *Blargg*.
+
