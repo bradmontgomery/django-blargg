@@ -176,13 +176,18 @@ class TestEntry(TestCase):
         self.entry._set_published.assert_called_once_with()
 
     def test_get_absolute_url(self):
+        expected = '/blog/{0}/'.format(self.entry.slug)
+        self.assertEqual(self.entry.get_absolute_url(), expected)
+
+    def test_get_absolute_url_with_date(self):
         # If not published /blog/slug/
-        self.assertIn(self.entry.slug, self.entry.get_absolute_url())
+        expected = '/blog/{0}/'.format(self.entry.slug)
+        self.assertEqual(self.entry.get_absolute_url_with_date(), expected)
 
         # If published, /blog/yyyy/mm/dd/slug/
         self.entry.publish()
-        url = "{0}/{1}".format(self.now.strftime("%Y/%m/%d"), self.entry.slug)
-        self.assertIn(url, self.entry.get_absolute_url())
+        expected= "/blog/{0}/{1}/".format(self.now.strftime("%Y/%m/%d"), self.entry.slug)
+        self.assertEqual(self.entry.get_absolute_url_with_date(), expected)
 
     @patch.object(Entry, "_set_published")
     def test_publish(self, mock_set_published):
