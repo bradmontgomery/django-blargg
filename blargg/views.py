@@ -22,11 +22,17 @@ class TaggedEntryListView(ListView):
     """
     allow_empty = True
     model = Entry
+    tags = None
 
     def get_queryset(self):
         tag_list = self.kwargs['tag_slug'].split('+')
-        tags = filter(lambda x: len(x) > 0, tag_list)
-        return Entry.objects.filter(tags__slug__in=tags).distinct()
+        self.tags = filter(lambda x: len(x) > 0, tag_list)
+        return Entry.objects.filter(tags__slug__in=self.tags).distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super(TaggedEntryListView, self).get_context_data(**kwargs)
+        context['tags'] = self.tags
+        return context
 
 
 class EntryDetailView(DetailView):
