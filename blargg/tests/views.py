@@ -58,7 +58,6 @@ class TestViews(TestCase):
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertIn('object_list', resp.context)
-        self.assertEqual(len(resp.context['object_list']), 1)
         self.assertTemplateUsed("blargg/entry_archive_day.html")
 
     def test_entry_archive_month(self):

@@ -21,20 +21,21 @@ class TestEntryAdmin(TestCase):
     """Verify fields and methods on ``EntryAdmin`` class."""
 
     def test_list_display(self):
-        expected = (
+        expected = sorted([
             'title',
+            'content_format',
             'author',
             'published',
             'published_on',
             'updated_on'
-        )
-        self.assertEqual(EntryAdmin.list_display, expected)
+        ])
+        self.assertEqual(sorted(EntryAdmin.list_display), expected)
 
     def test_date_hierarchy(self):
         self.assertEqual(EntryAdmin.date_hierarchy, 'created_on')
 
     def test_list_filter(self):
-        self.assertEqual(EntryAdmin.list_filter, ('published', ))
+        self.assertEqual(EntryAdmin.list_filter, ('published', 'content_format'))
 
     def test_search_fields(self):
         expected = ('title', 'raw_content', 'tag_string')
