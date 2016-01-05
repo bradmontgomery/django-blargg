@@ -7,10 +7,22 @@ from .models import Entry, entry_stats
 
 
 class EntryStatsMixin(MultipleObjectMixin):
+    """This mixin will calculate entry stats (counting words) for a View's
+    queryset of objects."""
+
     def get_context_data(self, **kwargs):
         context = super(EntryStatsMixin, self).get_context_data(**kwargs)
+
         # Calculate stats for the queryset of Entries & add to the context.
-        context.update(entry_stats(context['object_list']))
+        objects = context['object_list']
+        if not objects.exists() and 'date_list' in context and context['date_list']:
+            # EntryYearArchiveViews won't include any objects, so query for
+            # thos using the year
+            years = list(set(dt.year for dt in context['date_list']))
+            if len(years) > 0:
+                objects = Entry.objects.filter(published_on__year=years[0])
+
+        context.update(entry_stats(objects))
         return context
 
 
