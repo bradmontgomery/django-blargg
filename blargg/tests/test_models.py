@@ -9,7 +9,7 @@ except ImportError:
     from mock import Mock, patch
 
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
 from django.test import TestCase
 from django.utils.timezone import now as utc_now
@@ -21,6 +21,7 @@ class TestTagManager(TestCase):
 
     def setUp(self):
         username = ''.join([choice(ascii_letters) for i in range(10)])
+        User = get_user_model()
         user = User.objects.create(
             username=username,
             password='{0}@example.com'.format(username)
@@ -83,6 +84,7 @@ class TestEntry(TestCase):
         self.utc_now_patcher.start()
 
         username = ''.join([choice(ascii_letters) for i in range(10)])
+        User = get_user_model()
         user = User.objects.create(
             username=username,
             password='{0}@example.com'.format(username)

@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
 from django.test import TestCase
 
@@ -11,6 +11,7 @@ class TestRSSEntriesFeed(TestCase):
 
     def setUp(self):
         # Some setup (need a User and an Entry)
+        User = get_user_model()
         username = 'blargg'
         user = User.objects.create(
             username=username,
@@ -58,6 +59,7 @@ class TestAtomEntriesFeed(TestCase):
     """NOTE: This whole test is a duplicate of ``TestRSSEntriesFeed``."""
     def setUp(self):
         # Some setup (need a User and an Entry)
+        User = get_user_model()
         username = 'blargg'
         user = User.objects.create(
             username=username,

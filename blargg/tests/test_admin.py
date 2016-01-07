@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.admin.sites import AdminSite
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
 from django.test import TestCase
 
@@ -49,6 +49,7 @@ class TestEntryAdmin(TestCase):
 
     def test_publish_entries(self):
         # Some setup (need a User and an Entry)
+        User = get_user_model()
         username = 'entryadmin_publish_entries'
         user = User.objects.create(
             username=username,

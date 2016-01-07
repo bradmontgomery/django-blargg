@@ -9,7 +9,6 @@ except ImportError:  # pragma: no cover
     docutils_publish = None  # pragma: no cover
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -67,24 +66,37 @@ class Entry(models.Model):
     )
 
     site = models.ForeignKey(Site)
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
     title = models.CharField(max_length=256)
 
     raw_content = models.TextField(help_text="Content entered by the author.")
-    content_format = models.CharField(max_length=4,
-        choices=CONTENT_FORMAT_CHOICES)
+    content_format = models.CharField(
+        max_length=4,
+        choices=CONTENT_FORMAT_CHOICES
+    )
     rendered_content = models.TextField(editable=False)
-
-    published = models.BooleanField(default=False, blank=True,
-        help_text="Show this entry to the public")
-    slug = models.SlugField(max_length=255, unique=True,
-        help_text="A slug/url used to identify this entry.")
-    date_slug = models.SlugField(max_length=255, unique=True, editable=False,
+    published = models.BooleanField(
+        default=False,
+        blank=True,
+        help_text="Show this entry to the public"
+    )
+    slug = models.SlugField(
+        max_length=255,
+        unique=True,
+        help_text="A slug/url used to identify this entry."
+    )
+    date_slug = models.SlugField(
+        max_length=255,
+        unique=True,
+        editable=False,
         help_text="A slug/url used to identify this entry; also includes "
-                  "the date on which the entry was published.")
+                  "the date on which the entry was published."
+    )
 
-    tag_string = models.TextField(blank=True,
-        help_text="A comma-separated list of tags.")
+    tag_string = models.TextField(
+        blank=True,
+        help_text="A comma-separated list of tags."
+    )
     tags = models.ManyToManyField(Tag, editable=False)
 
     published_on = models.DateTimeField(blank=True, null=True, editable=False)
