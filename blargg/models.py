@@ -53,7 +53,7 @@ class Tag(models.Model):
         super(Tag, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('tagged_entry_list', args=[self.slug])
+        return reverse('blargg:tagged_entry_list', args=[self.slug])
 
     objects = TagManager()
 
@@ -173,7 +173,7 @@ class Entry(models.Model):
 
     def get_absolute_url(self):
         """URL based on the entry's slug."""
-        return reverse('entry_detail', args=[self.slug])
+        return reverse('blargg:entry_detail', args=[self.slug])
 
     def get_absolute_url_with_date(self):
         """URL based on the entry's date & slug."""
@@ -195,7 +195,7 @@ class Entry(models.Model):
             ]
         else:
             args = [self.slug]
-        return reverse('entry_detail', args=args)
+        return reverse('blargg:entry_detail', args=args)
 
     def publish(self):
         """Puplish & Save."""
