@@ -2,12 +2,13 @@ from django.conf import settings
 from django.contrib.admin.sites import AdminSite
 from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from ..models import Entry
 from ..admin import TagAdmin, EntryAdmin
 
 
+@override_settings(SITE_ID=1)
 class TestTagAdmin(TestCase):
     """Verify expected fields on ``TagAdmin`` class"""
     def test_list_display(self):
@@ -17,6 +18,7 @@ class TestTagAdmin(TestCase):
         self.assertEqual(TagAdmin.search_fields, ('name', ))
 
 
+@override_settings(SITE_ID=1)
 class TestEntryAdmin(TestCase):
     """Verify fields and methods on ``EntryAdmin`` class."""
 

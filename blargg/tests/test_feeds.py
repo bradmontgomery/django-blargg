@@ -1,12 +1,13 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from ..feeds import RSSEntriesFeed, AtomEntriesFeed
 from ..models import Entry
 
 
+@override_settings(SITE_ID=1)
 class TestRSSEntriesFeed(TestCase):
 
     def setUp(self):
@@ -55,6 +56,7 @@ class TestRSSEntriesFeed(TestCase):
         )
 
 
+@override_settings(SITE_ID=1)
 class TestAtomEntriesFeed(TestCase):
     """NOTE: This whole test is a duplicate of ``TestRSSEntriesFeed``."""
     def setUp(self):

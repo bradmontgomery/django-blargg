@@ -6,11 +6,12 @@ from random import choice
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from ..models import Entry
 
 
+@override_settings(SITE_ID=1)
 class TestEntrySitemap(TestCase):
     url = 'blargg.tests.urls'
 

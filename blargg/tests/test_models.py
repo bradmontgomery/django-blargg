@@ -11,12 +11,13 @@ except ImportError:
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.utils.timezone import now as utc_now
 
 from ..models import Tag, Entry
 
 
+@override_settings(SITE_ID=1)
 class TestTagManager(TestCase):
 
     def setUp(self):
@@ -74,6 +75,7 @@ class TestTag(TestCase):
         self.assertIn("tags/test-tag/", self.tag.get_absolute_url())
 
 
+@override_settings(SITE_ID=1)
 class TestEntry(TestCase):
 
     def setUp(self):
