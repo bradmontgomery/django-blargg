@@ -6,6 +6,7 @@ History
 
 - Django 1.8/1.9 support (with migrations)
 - Python 3 support
+- Removing old, proably worthless management command
 
 
 0.5.2 (2016-01-04)
