@@ -48,7 +48,7 @@ can install this app with one of the following methods:
 Once you've got a copy of the code, add ``blargg`` to your ``INSTALLED_APPS``,
 and include the following in your Root URLconf::
 
-    url(r'^blog/', include('blargg.urls')),
+    url(r'^blog/', include('blargg.urls', namespace='blargg')),
 
 There are some sample templates under ``blargg/templates/blargg``, but you'll
 probably want to override these in your project.
