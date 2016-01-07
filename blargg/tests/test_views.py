@@ -13,6 +13,7 @@ from ..models import Tag, Entry
 
 
 @override_settings(SITE_ID=1)
+@override_settings(ROOT_URLCONF='blargg.tests.urls')
 class TestViews(TestCase):
 
     def setUp(self):
@@ -37,14 +38,14 @@ class TestViews(TestCase):
         self.tag = Tag.objects.get(name="foo")
 
     def test_list_tags(self):
-        url = reverse('list_tags')
+        url = reverse('blargg:list_tags')
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertIn('object_list', resp.context)
         self.assertEqual(len(resp.context['object_list']), 2)
 
     def test_tagged_entry_list(self):
-        url = reverse('tagged_entry_list', args=[self.tag.slug])
+        url = reverse('blargg:tagged_entry_list', args=[self.tag.slug])
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertIn('object_list', resp.context)
@@ -56,7 +57,7 @@ class TestViews(TestCase):
         # Also, Entry.get_absolute_url also converts to TIME_ZONE if USE_TZ is
         # True.
         y, m, d = self.entry.published_on.strftime("%Y-%m-%d").split("-")
-        url = reverse('entry_archive_day', args=[y, m, d])
+        url = reverse('blargg:entry_archive_day', args=[y, m, d])
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertIn('object_list', resp.context)
@@ -64,7 +65,7 @@ class TestViews(TestCase):
 
     def test_entry_archive_month(self):
         y, m, d = self.entry.published_on.strftime("%Y-%m-%d").split("-")
-        url = reverse('entry_archive_month', args=[y, m])
+        url = reverse('blargg:entry_archive_month', args=[y, m])
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertIn('object_list', resp.context)
@@ -75,7 +76,7 @@ class TestViews(TestCase):
 
     def test_entry_archive_year(self):
         y, m, d = self.entry.published_on.strftime("%Y-%m-%d").split("-")
-        url = reverse('entry_archive_year', args=[y])
+        url = reverse('blargg:entry_archive_year', args=[y])
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertIn('date_list', resp.context)
@@ -84,7 +85,7 @@ class TestViews(TestCase):
 
     def test_entry_detail_with_date(self):
         y, m, d = self.entry.published_on.strftime("%Y-%m-%d").split("-")
-        url = reverse('entry_detail', args=[y, m, d, self.entry.slug])
+        url = reverse('blargg:entry_detail', args=[y, m, d, self.entry.slug])
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertIn('object', resp.context)
@@ -92,7 +93,7 @@ class TestViews(TestCase):
         self.assertTemplateUsed("blargg/entry_detail.html")
 
     def test_entry_detail_without_date(self):
-        url = reverse('entry_detail', args=[self.entry.slug])
+        url = reverse('blargg:entry_detail', args=[self.entry.slug])
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertIn('object', resp.context)
@@ -101,7 +102,7 @@ class TestViews(TestCase):
 
     def test_list_entries(self):
         """Tests the ARchiveIndexView."""
-        url = reverse('list_entries')
+        url = reverse('blargg:list_entries')
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertIn('object_list', resp.context)

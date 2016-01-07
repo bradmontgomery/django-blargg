@@ -12,8 +12,8 @@ from ..models import Entry
 
 
 @override_settings(SITE_ID=1)
+@override_settings(ROOT_URLCONF='blargg.tests.urls')
 class TestEntrySitemap(TestCase):
-    url = 'blargg.tests.urls'
 
     def setUp(self):
         username = ''.join([choice(ascii_letters) for i in range(10)])

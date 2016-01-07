@@ -18,6 +18,7 @@ from ..models import Tag, Entry
 
 
 @override_settings(SITE_ID=1)
+@override_settings(ROOT_URLCONF='blargg.tests.urls')
 class TestTagManager(TestCase):
 
     def setUp(self):
@@ -52,8 +53,8 @@ class TestTagManager(TestCase):
         self.assertEqual(Tag.objects.all().count(), 3)
 
 
+@override_settings(ROOT_URLCONF='blargg.tests.urls')
 class TestTag(TestCase):
-    urls = "blargg.urls"
 
     def setUp(self):
         self.tag = Tag(name="Test Tag")
@@ -76,6 +77,7 @@ class TestTag(TestCase):
 
 
 @override_settings(SITE_ID=1)
+@override_settings(ROOT_URLCONF='blargg.tests.urls')
 class TestEntry(TestCase):
 
     def setUp(self):
