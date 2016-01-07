@@ -3,7 +3,10 @@
 from string import ascii_letters
 from random import choice
 
-from mock import Mock, patch
+try:
+    from unittest.mock import Mock, patch
+except ImportError:
+    from mock import Mock, patch
 
 from django.conf import settings
 from django.contrib.auth.models import User
