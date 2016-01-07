@@ -149,7 +149,7 @@ class Entry(models.Model):
         appear "Published", and send the ``entry_published`` signal."""
         self.published = True
         self.published_on = utc_now()
-        entry_published.send(sender=self, entry=self)
+        return True
 
     def save(self, *args, **kwargs):
         """Auto-generate a slug from the name."""
@@ -161,10 +161,15 @@ class Entry(models.Model):
         # NOTE: if this is unpublished, and then republished, this method won't
         # get called; e.g. the date won't get changed and the
         # ``entry_published`` signal won't get re-sent.
+        send_published_signal = False
         if self.published and self.published_on is None:
-            self._set_published()
+            send_published_signal = self._set_published()
 
         super(Entry, self).save(*args, **kwargs)
+
+        # We need an ID before we can send this signal.
+        if send_published_signal:
+            entry_published.send(sender=self, entry=self)
 
     def get_absolute_url(self):
         """URL based on the entry's slug."""
