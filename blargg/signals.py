@@ -41,7 +41,7 @@ def mail2blogger(entry, **kwargs):
             entry.title,  # Subject
             striptags(entry.crossposted_content),  # Text-only
             settings.DEFAULT_FROM_EMAIL,  # From
-           [recipient]  # List of Recipients
+            [recipient]  # List of Recipients
         )
         msg.attach_alternative(entry.crossposted_content, "text/html")
         msg.send(fail_silently=True)
