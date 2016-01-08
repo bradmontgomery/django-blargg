@@ -1,4 +1,5 @@
 from django.conf.urls import url, include
+from django.contrib.sitemaps import views as sitemaps_views
 from blargg.sitemaps import EntrySitemap
 
 
@@ -12,12 +13,13 @@ urlpatterns = [
     url(r'^blog/', include('blargg.urls', namespace='blargg')),
     url(
         r'^sitemap\.xml$',
-        'django.contrib.sitemaps.views.index',
-        {'sitemaps': sitemaps}
+        sitemaps_views.index,
+        {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps'}
     ),
     url(
         r'^sitemap-(?P<section>.+)\.xml$',
-        'django.contrib.sitemaps.views.sitemap',
-        {'sitemaps': sitemaps}
+        sitemaps_views.sitemap,
+        {'sitemaps': sitemaps},
+        name='sitemaps'
     ),
 ]
