@@ -3,7 +3,8 @@ Blargg!
 
 *yet another* Django-powered blog. The goal of this app is to provide a
 minimalistic (in both number of features and code) tool for publishing a
-mostly-text blog.
+mostly-text blog. Shameless plug: see
+`bradmontgomery.net <https://bradmontgomery.net>`_ for an example.
 
 This app provides a fairly simple ``Entry`` model, and a light-weight ``Tag``
 model.
@@ -13,45 +14,22 @@ Features
 
 * Support for ``Site``
 * Simple content tagging
-* URLs containing an ``Entry``'s publish date (but it still supports other urls
-  if you're importing from somewhere else -- trying not to break existing
-  content).
-* A Management command to import from a really old version of Mezzanine (0.8.5)
-* Liberal use of generic views (there's very little custom view code)
 * RSS & Atom Feeds
 * Sitemap support
 * Automatic cross-posting to Blogger (see below)
-* Write content in HTML or reStructured Text (requires
-  `docutils <https://pypi.python.org/pypi/docutils>`_)
-
-Future Features (maybe)
------------------------
-* Write content in Markdown
-
+* Support authoring content in reStructured Text (requires
+  `docutils <https://pypi.python.org/pypi/docutils>`_), markdown (requires
+  `Markdown <https://pypi.python.org/pypi/Markdown>`_) or plain old HTML.
 
 Installation
 ------------
 
-This app will probably not be on pypi for the forseeable future. However, you
-can install this app with one of the following methods:
-
-1. clone the repo, and put a copy on your python path
-2. Install the latest *tagged release*::
-
-    pip install -e git://github.com/bradmontgomery/django-blargg.git@v0.4.3#egg=blargg-dev
-
-3. You can also install the development version with::
-
-    pip install -e git://github.com/bradmontgomery/django-blargg.git#egg=blargg-dev
-
-
-Once you've got a copy of the code, add ``blargg`` to your ``INSTALLED_APPS``,
-and include the following in your Root URLconf::
-
-    url(r'^blog/', include('blargg.urls', namespace='blargg')),
-
-There are some sample templates under ``blargg/templates/blargg``, but you'll
-probably want to override these in your project.
+1. Install with `pip install django-blargg`
+2. Add ``blargg`` to your ``INSTALLED_APPS``
+3. Configure your Root URLconf: ``url(r'^blog/', include('blargg.urls', namespace='blargg'))``
+4. Customize your templates. There are some sample templates under
+   ``blargg/templates/blargg``, but you'll want to override these in your project.
+5. (Optinally) enable Mail2Blogger (see below)
 
 
 Mail2Blogger Support
@@ -87,10 +65,12 @@ Contributing
 ------------
 
 Feel free to report any issues or (better yet) pull requests for bug fixes!
+There's a `requirements.txt` file in this repo to help you get all the
+dependencies you'll likely need (for python3).
 
 
-Why "Blargg"
-------------
+Why the name "Blargg"?
+----------------------
 
 From `<http://nintendo.wikia.com/wiki/Blargg>`_:
 

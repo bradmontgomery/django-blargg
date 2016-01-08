@@ -8,6 +8,8 @@ History
 - Python 3 support
 - Removing old, proably worthless management command
 - Support for pluggable User models.
+- Support for Markdown
+- Adding to pypi
 
 
 0.5.2 (2016-01-04)
