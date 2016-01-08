@@ -60,8 +60,8 @@ class TestTag(TestCase):
         self.tag = Tag(name="Test Tag")
         self.tag.save()
 
-    def test__unicode__(self):
-        self.assertEqual(self.tag.__unicode__(), u"test tag")
+    def test__str__(self):
+        self.assertEqual(self.tag.__str__(), u"test tag")
 
     def test_save(self):
         """Verify that tag names get lowercased & stripped, while slugs are
@@ -105,8 +105,8 @@ class TestEntry(TestCase):
     def tearDown(self):
         self.utc_now_patcher.stop()
 
-    def test__unicode__(self):
-        self.assertEqual(self.entry.__unicode__(), self.entry.title)
+    def test__str__(self):
+        self.assertEqual(self.entry.__str__(), self.entry.title)
 
     def test__create_slug(self):
         e = Entry(title="Foo Bar")

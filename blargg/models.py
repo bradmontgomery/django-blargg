@@ -38,7 +38,7 @@ class Tag(models.Model):
     name = models.CharField(max_length=256)
     slug = models.SlugField(max_length=256, editable=False, unique=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -103,7 +103,7 @@ class Entry(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     class Meta:
