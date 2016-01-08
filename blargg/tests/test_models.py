@@ -152,12 +152,14 @@ class TestEntry(TestCase):
     def test__render_content_rst(self):
         self.entry.content_format = "rst"
         self.entry._render_content()
-        self.assertEqual(self.entry.rendered_content, "<p>Test Content</p>\n")
+        results = self.entry.rendered_content.strip()
+        self.assertEqual(results, "<p>Test Content</p>")
 
     def test__render_content_md(self):
-        with self.assertRaises(NotImplementedError):
-            self.entry.content_format = "md"
-            self.entry._render_content()
+        self.entry.content_format = "md"
+        self.entry._render_content()
+        results = self.entry.rendered_content.strip()
+        self.assertEqual(results, "<p>Test Content</p>")
 
     def test__set_published(self):
         self.assertFalse(self.entry.published)

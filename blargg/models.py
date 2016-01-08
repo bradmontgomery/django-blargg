@@ -8,6 +8,12 @@ try:
 except ImportError:  # pragma: no cover
     docutils_publish = None  # pragma: no cover
 
+try:
+    from markdown import markdown
+    assert markdown  # placate flake8
+except ImportError:  # pragma: no cover
+    markdown = None  # pragma: no cover
+
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
@@ -139,8 +145,12 @@ class Entry(models.Model):
                 writer_name="html4css1"
             )
             self.rendered_content = doc_parts['fragment']
-        elif self.content_format == "md":
-            raise NotImplementedError  # TODO: run thru markdown!
+        elif self.content_format == "rs" and docutils_publish is None:
+            raise RuntimeError("Install docutils to pubilsh reStructuredText")
+        elif self.content_format == "md" and markdown is not None:
+            self.rendered_content = markdown(self.raw_content)
+        elif self.content_format == "md" and markdown is None:
+            raise RuntimeError("Install Markdown to pubilsh markdown")
         else:  # Assume we've got html
             self.rendered_content = self.raw_content
 
