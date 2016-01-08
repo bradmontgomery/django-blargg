@@ -5,7 +5,7 @@
 {% for date in date_list %}
     {% with m=date|date:"m" d=date|date:"d" %}
     <li>
-        <a href="{% url 'entry_archive_day' month.year m d %}">{{ date|date:"F jS"}}</a>
+        <a href="{% url 'blargg:entry_archive_day' month.year m d %}">{{ date|date:"F jS"}}</a>
     </li>
     {% endwith %}
 {% endfor %}
@@ -38,7 +38,7 @@
     <p>
     {% if previous_month %}
         {% with y=previous_month|date:"Y" m=previous_month|date:"m" %}
-        <a href="{% url 'entry_archive_month' y m %}">{{ previous_month|date:"F Y" }}</a>.
+        <a href="{% url 'blargg:entry_archive_month' y m %}">{{ previous_month|date:"F Y" }}</a>.
         {% endwith %}
     {% endif %}
 
@@ -46,7 +46,7 @@
 
     {% if next_month %}
         {% with y=next_month|date:"Y" m=next_month|date:"m" %}
-        <a href="{% url 'entry_archive_month' y m %}">{{ next_month|date:"F Y" }}</a>.
+        <a href="{% url 'blargg:entry_archive_month' y m %}">{{ next_month|date:"F Y" }}</a>.
         {% endwith %}
     {% endif %}
     </p>

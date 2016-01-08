@@ -26,7 +26,7 @@
     <p>
     {% if previous_day %}
         {% with y=previous_day|date:"Y" m=previous_day|date:"m" d=previous_day|date:"d"%}
-         <a href="{% url 'entry_archive_day' y m d %}">{{ previous_day|date:"F jS, Y" }}</a>.
+         <a href="{% url 'blargg:entry_archive_day' y m d %}">{{ previous_day|date:"F jS, Y" }}</a>.
         {% endwith %}
     {% endif %}
 
@@ -34,7 +34,7 @@
 
     {% if next_day %}
         {% with y=next_day|date:"Y" m=next_day|date:"m" d=next_day|date:"d"%}
-        <a href="{% url 'entry_archive_day' y m d %}">{{ next_day|date:"F jS, Y" }}</a>.
+        <a href="{% url 'blargg:entry_archive_day' y m d %}">{{ next_day|date:"F jS, Y" }}</a>.
         {% endwith %}
     {% endif %}
     </p>

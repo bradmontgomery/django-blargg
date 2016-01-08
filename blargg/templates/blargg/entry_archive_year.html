@@ -17,7 +17,7 @@ that happens when:
 {% localtime off %}
 {% for d in date_list %}
     <li>
-        <a href="{% url 'entry_archive_month' d|date:"Y" d|date:"m" %}">
+        <a href="{% url 'blargg:entry_archive_month' d|date:"Y" d|date:"m" %}">
         {{ d|date:"F"}}
         </a>
     </li>
@@ -43,7 +43,7 @@ that happens when:
     <p>
     {% if previous_year %}
         {% with y=previous_year|date:"Y" %}
-        <a href="{% url 'entry_archive_year' y %}">{{ previous_year|date:"Y" }}</a>.
+        <a href="{% url 'blargg:entry_archive_year' y %}">{{ previous_year|date:"Y" }}</a>.
         {% endwith %}
         |
     {% endif %}
@@ -52,7 +52,7 @@ that happens when:
 
     {% if next_year %}
         {% with y=next_year|date:"Y" %}
-        <a href="{% url 'entry_archive_year' y %}">{{ next_year|date:"Y" }}</a>.
+        <a href="{% url 'blargg:entry_archive_year' y %}">{{ next_year|date:"Y" }}</a>.
         {% endwith %}
     {% endif %}
     </p>
