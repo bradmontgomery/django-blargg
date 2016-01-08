@@ -35,10 +35,10 @@ class TestEntrySitemap(TestCase):
         # The root sitemap doc should include a link to the blog
         resp = self.client.get('/sitemap.xml')
         self.assertEqual(resp.status_code, 200)
-        self.assertIn("sitemap-blog.xml", resp.content)
+        self.assertContains(resp, 'sitemap-blog.xml')
 
     def test_sitemap_blog(self):
         # The sitemap for blogs should contain a link to an Entry
         resp = self.client.get('/sitemap-blog.xml')
         self.assertEqual(resp.status_code, 200)
-        self.assertIn(self.entry.get_absolute_url(), resp.content)
+        self.assertContains(resp, self.entry.get_absolute_url())
