@@ -9,6 +9,9 @@ sitemaps = {
 
 
 # Sitemaps
+
+# WTF: TemplateDoesNotExist at /sitemap.xml, sitemap_index.xml
+
 urlpatterns = [
     url(r'^blog/', include('blargg.urls', namespace='blargg')),
     url(

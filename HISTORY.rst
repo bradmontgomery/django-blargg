@@ -4,9 +4,10 @@ History
 0.6.0 (2015-12-13)
 ++++++++++++++++++
 
-- Django 1.8/1.9 support (with migrations)
+- Django 1.8/1.9 support (with django migrations)
 - Python 3 support
 - Removing old, proably worthless management command
+- Support for pluggable User models.
 
 
 0.5.2 (2016-01-04)
