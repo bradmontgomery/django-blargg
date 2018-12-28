@@ -1,6 +1,16 @@
 History
 -------
 
+
+## 0.7.0 (2018-12-28)
+
+- Django 2 support (2.1.4)
+- Added `on_delete` options for FK fields.
+- Added title/description settings for feeds.
+- Converted `url` use to `path` function in urlconf.
+- Removed old south migrations.
+
+
 ## 0.6.0 (2016-12-13)
 
 - Django 1.8/1.9 support (with django migrations)

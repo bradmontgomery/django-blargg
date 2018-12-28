@@ -24,10 +24,20 @@ Installation
 
 1. Install with `pip install django-blargg`
 2. Add `blargg` to your `INSTALLED_APPS`
-3. Configure your Root URLconf: `url(r'^blog/', include('blargg.urls', namespace='blargg'))`
+3. Configure your Root URLconf: `path('blog/', include('blargg.urls', namespace='blargg'))`
 4. Customize your templates. There are some sample templates under
    `blargg/templates/blargg`, but you'll want to override these in your project.
-5. (Optinally) enable Mail2Blogger (see below)
+5. Add a `BLARGG` setting dict that contains the title and description to be
+   used in your blog's RSS feeds (see below).
+6. (Optinally) enable Mail2Blogger (see below)
+
+
+### Sample BLARGG settings
+
+    BLARGG = {
+        'title': 'Awesome blog',
+        'description': 'Entries from an awesome blog',
+    }
 
 
 Mail2Blogger Support
@@ -37,6 +47,8 @@ This app supports cross-posting to Blogger via email. By default, this setting
 is disabled. To enable Mail2Blogger, include the following settings::
 
     BLARGG = {
+        'title': ...,
+        'description': ...,
         'mail2blogger': True,
         'mail2blogger_email': 'username.SECRET@blogger.com',
     }

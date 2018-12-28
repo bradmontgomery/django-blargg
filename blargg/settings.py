@@ -8,8 +8,9 @@ Custom settings for django-blargg.
 
 """
 
-
 BLARGG = {
+    'title': 'A Blargg Blog',
+    'description': 'Blog Entries',
     'mail2blogger': False,
     'mail2blogger_email': '',
 }
