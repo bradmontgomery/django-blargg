@@ -66,11 +66,10 @@ class Tag(models.Model):
 
 class Entry(models.Model):
     CONTENT_FORMAT_CHOICES = (
-        ('html', 'HTML'),
+        ('md', 'Markdown'),
         ('rst', 'reStructured Text'),
-        ('md', 'Markdown (not yet supported)'),
+        ('html', 'HTML'),
     )
-
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     title = models.CharField(max_length=256)
