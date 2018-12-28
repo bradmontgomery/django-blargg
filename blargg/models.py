@@ -16,7 +16,7 @@ except ImportError:  # pragma: no cover
 
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -71,8 +71,8 @@ class Entry(models.Model):
         ('md', 'Markdown (not yet supported)'),
     )
 
-    site = models.ForeignKey(Site)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     title = models.CharField(max_length=256)
 
     raw_content = models.TextField(help_text="Content entered by the author.")
