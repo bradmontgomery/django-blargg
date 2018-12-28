@@ -203,7 +203,7 @@ class TestEntry(TestCase):
     @patch.object(Entry, "_set_published")
     def test_publish(self, mock_set_published):
         self.entry.publish()
-        mock_set_published.asserted_called_once_with()
+        mock_set_published.assert_called_once_with()
 
     @patch.object(Entry, "save")
     def test_unpublish(self, mock_save):
