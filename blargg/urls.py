@@ -20,6 +20,7 @@ from .views import TaggedEntryListView
 # /blog/2013/05/a-sample-entry/ -- entry detail (with date slug)
 # /blog/                        -- entry detail (latest published post)
 
+app_name = 'blargg'
 urlpatterns = [
     url(r'^tags/$', ListView.as_view(model=Tag), name='list_tags'),
     url(
