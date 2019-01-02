@@ -244,6 +244,11 @@ def generate_entry_tags(sender, instance, created, raw, using, **kwargs):
     Tag.objects.create_tags(instance)
 
 
+# Words we want to ignore when calculating entry stats, below.
+IGNORE_WORDS = "a,an,and,the,but,to,it,its,is,on,of,if,in,with,for,at,this,that,so"
+IGNORE_WORDS = IGNORE_WORDS.split(',')
+
+
 def entry_stats(entries, top_n=10):
     """Calculates stats for the given ``QuerySet`` of ``Entry``s."""
 
@@ -253,7 +258,9 @@ def entry_stats(entries, top_n=10):
         content = strip_tags(content)  # remove all html tags
         content = re.sub('\s+', ' ', content)  # condense all whitespace
         content = re.sub('[^A-Za-z ]+', '', content)  # remove non-alpha chars
-        wc.update(content.split())
+
+        words = [w.lower() for w in content.split()]
+        wc.update([w for w in words if w not in IGNORE_WORDS])
 
     return {
         "total_words": len(wc.values()),
