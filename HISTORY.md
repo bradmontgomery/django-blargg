@@ -9,6 +9,7 @@ History
 - Added title/description settings for feeds.
 - Converted `url` use to `path` function in urlconf.
 - Removed old south migrations.
+- Include words to ignore when generating word stats.
 
 
 ## 0.6.0 (2016-12-13)
