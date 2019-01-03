@@ -2,7 +2,7 @@ History
 -------
 
 
-## 0.7.0 (2018-12-28)
+## 0.7.0 (2019-01-03)
 
 - Django 2 support (2.1.4)
 - Added `on_delete` options for FK fields.
