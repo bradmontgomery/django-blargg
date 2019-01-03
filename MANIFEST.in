@@ -1,2 +1,2 @@
-include LICENSE README.rst
+include LICENSE.txt README.md
 recursive-include blargg *.py *.html
