@@ -10,6 +10,7 @@ History
 - Converted `url` use to `path` function in urlconf.
 - Removed old south migrations.
 - Include words to ignore when generating word stats.
+- Add `Entry.tag_list` method that returns a sorted list of tag names
 
 
 ## 0.6.0 (2016-12-13)

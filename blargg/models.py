@@ -217,6 +217,12 @@ class Entry(models.Model):
         self.save()
 
     @property
+    def tag_list(self):
+        """Return a plain python list containing all of this Entry's tags."""
+        tags = [tag.strip() for tag in self.tag_string.split(",")]
+        return sorted(filter(None, tags))
+
+    @property
     def content(self):
         safe_content = mark_safe(self.rendered_content)
         return safe_content
