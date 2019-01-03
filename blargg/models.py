@@ -16,7 +16,7 @@ except ImportError:  # pragma: no cover
 
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -66,13 +66,12 @@ class Tag(models.Model):
 
 class Entry(models.Model):
     CONTENT_FORMAT_CHOICES = (
-        ('html', 'HTML'),
+        ('md', 'Markdown'),
         ('rst', 'reStructured Text'),
-        ('md', 'Markdown (not yet supported)'),
+        ('html', 'HTML'),
     )
-
-    site = models.ForeignKey(Site)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     title = models.CharField(max_length=256)
 
     raw_content = models.TextField(help_text="Content entered by the author.")
@@ -218,6 +217,12 @@ class Entry(models.Model):
         self.save()
 
     @property
+    def tag_list(self):
+        """Return a plain python list containing all of this Entry's tags."""
+        tags = [tag.strip() for tag in self.tag_string.split(",")]
+        return sorted(filter(None, tags))
+
+    @property
     def content(self):
         safe_content = mark_safe(self.rendered_content)
         return safe_content
@@ -245,6 +250,11 @@ def generate_entry_tags(sender, instance, created, raw, using, **kwargs):
     Tag.objects.create_tags(instance)
 
 
+# Words we want to ignore when calculating entry stats, below.
+IGNORE_WORDS = "a,an,and,the,but,to,it,its,is,on,of,if,in,with,for,at,this,that,so"
+IGNORE_WORDS = IGNORE_WORDS.split(',')
+
+
 def entry_stats(entries, top_n=10):
     """Calculates stats for the given ``QuerySet`` of ``Entry``s."""
 
@@ -254,7 +264,9 @@ def entry_stats(entries, top_n=10):
         content = strip_tags(content)  # remove all html tags
         content = re.sub('\s+', ' ', content)  # condense all whitespace
         content = re.sub('[^A-Za-z ]+', '', content)  # remove non-alpha chars
-        wc.update(content.split())
+
+        words = [w.lower() for w in content.split()]
+        wc.update([w for w in words if w not in IGNORE_WORDS])
 
     return {
         "total_words": len(wc.values()),

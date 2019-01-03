@@ -1,13 +1,15 @@
-from django.conf.urls import url
+from django.urls import path
 from django.views.generic import ArchiveIndexView
 from django.views.generic import ListView
 
 from .models import Entry, Tag
-from .views import EntryDayArchiveView
-from .views import EntryDetailView
-from .views import EntryMonthArchiveView
-from .views import EntryYearArchiveView
-from .views import TaggedEntryListView
+from .views import (
+    EntryDayArchiveView,
+    EntryDetailView,
+    EntryMonthArchiveView,
+    EntryYearArchiveView,
+    TaggedEntryListView,
+)
 
 # URL examples
 # ------------
@@ -20,44 +22,41 @@ from .views import TaggedEntryListView
 # /blog/2013/05/a-sample-entry/ -- entry detail (with date slug)
 # /blog/                        -- entry detail (latest published post)
 
+app_name = 'blargg'
 urlpatterns = [
-    url(r'^tags/$', ListView.as_view(model=Tag), name='list_tags'),
-    url(
-        r'^tags/(?P<tag_slug>.*)/$',
+    path('tags/', ListView.as_view(model=Tag), name='list_tags'),
+    path(
+        'tags/<slug:tag_slug>/',
         TaggedEntryListView.as_view(),
         name='tagged_entry_list'
     ),
 
     # Year, Month, Day Archives
-    url(
-        r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$',
+    path(
+        '<int:year>/<int:month>/<int:day>/',
         EntryDayArchiveView.as_view(),
         name='entry_archive_day'
     ),
-    url(
-        r'^(?P<year>\d{4})/(?P<month>\d{2})/$',
+    path(
+        '<int:year>/<int:month>/',
         EntryMonthArchiveView.as_view(),
         name='entry_archive_month'
     ),
-    url(
-        r'^(?P<year>\d{4})/$',
+    path(
+        '<int:year>/',
         EntryYearArchiveView.as_view(),
         name='entry_archive_year'
     ),
 
     # Detail views (with and without the date)
-    url(
-        r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>.*)/$',
+    path(
+        '<int:year>/<int:month>/<int:day>/<slug:slug>/',
         EntryDetailView.as_view(),
         name='entry_detail'
     ),
-    url(
-        r'^(?P<slug>.*)/$',
-        EntryDetailView.as_view(),
-        name='entry_detail'
-    ),
-    url(
-        r'^$',
+    path('<slug:slug>/', EntryDetailView.as_view(), name='entry_detail'),
+    path(
+        '',
         ArchiveIndexView.as_view(
             model=Entry,
             date_field='published_on',

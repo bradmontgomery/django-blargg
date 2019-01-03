@@ -10,18 +10,26 @@ need to set up a couple of URL patterns; e.g.
     )
 
 """
-
+from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
 
 from .models import Entry
+from .settings import BLARGG
+
+
+def _get_setting(name):
+    try:
+        return settings.BLARGG[name]
+    except (AttributeError, KeyError):
+        return BLARGG[name]
 
 
 class RSSEntriesFeed(Feed):
     """An RSS feed for all ``Entry``'s"""
-    title = "brad's blog"
+    title = _get_setting("title")
     link = "/blog/"
-    description = "Entries from brad's blog"
+    description = _get_setting("description")
 
     def items(self):
         return Entry.objects.filter(published=True)
